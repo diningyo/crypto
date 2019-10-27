@@ -14,6 +14,18 @@ import javax.crypto.spec.SecretKeySpec
 class AESTopUnitTester(c: SimDTMAESTop) extends PeekPokeTester(c) {
   val aes = c.io.aes
 
+  def hex2bytes(hex: String): Array[Byte] =
+    hex.replaceAll("[^0-9A-Fa-f]", "").sliding(2, 2).toArray.map(Integer.parseInt(_, 16).toByte)
+
+  def padding(data: String, numOfrequiredBits: Int): BigInt = {
+    0
+  }
+
+  /**
+   * Set AES configuration
+   * @param mode AES mode (enc or dec).
+   * @param key AES key.
+   */
   def setCfg(mode: AESMode.Type, key: String): Unit = {
     val keyBits = hex2bytes(key).length * 8
     val nk = BigInt(keyBits / 32)
@@ -22,15 +34,31 @@ class AESTopUnitTester(c: SimDTMAESTop) extends PeekPokeTester(c) {
       case 192 => BigInt(key, 16) << 64
       case _ => BigInt(key, 16)
     }
-    println(s"$nk")
+
     poke(aes.cfg.mode, mode)
     poke(aes.cfg.key, keyData)
     poke(aes.cfg.nk, nk)
-
   }
 
-  def hex2bytes(hex: String): Array[Byte] =
-    hex.replaceAll("[^0-9A-Fa-f]", "").sliding(2, 2).toArray.map(Integer.parseInt(_, 16).toByte)
+  /**
+   * Run AES calculation
+   * @param data Data
+   */
+  def run(data: String): Unit = {
+    val dataBits = BigInt(data, 16)
+    poke(aes.data_in.valid, true)
+    poke(aes.data_in.bits, dataBits)
+
+    if (peek(aes.data_in.ready) != 1) {
+      while (peek(aes.data_in.ready) != 1) {
+        step(1)
+      }
+    } else {
+      step(1)
+    }
+  }
+
+
 }
 
 /**

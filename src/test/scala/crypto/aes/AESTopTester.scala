@@ -19,7 +19,7 @@ class AESTopUnitTester(c: SimDTMAESTop) extends PeekPokeTester(c) {
 class AESTopTester extends ChiselFlatSpec {
 
   val dut = "AESTop"
-  val testDir = s"test_dir/$dut"
+  val testDir = s"test_run_dir/$dut"
   val limit = 1000
 
   behavior of dut

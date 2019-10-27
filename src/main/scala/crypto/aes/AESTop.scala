@@ -14,14 +14,24 @@ object AESMode extends ChiselEnum {
 }
 
 /**
+ * AES configuration
+ */
+class AESCfgs extends Bundle {
+  val key = UInt(256.W)
+  val nk = UInt(log2Ceil(8).W)
+  val mode = UInt(AESMode.getWidth.W)
+}
+
+/**
  * AES I/O
  */
-class AESTopIO extends Bundle {
-  val key = Input(UInt(256.W))
-  val nk = Input(UInt(log2Ceil(8).W))
-  val mode = Input(UInt(AESMode.getWidth.W))
+class AESTopIO(decoupledCfg: Boolean = true) extends Bundle {
+  //val cfg = if (decoupledCfg) DecoupledIO(new AESCfgs) else new AESCfgs
+  val cfg = Input(new AESCfgs)
   val data_in = Flipped(DecoupledIO(UInt(256.W)))
   val data_out = DecoupledIO(UInt(256.W))
+
+  override def cloneType: this.type = new AESTopIO(decoupledCfg).asInstanceOf[this.type]
 }
 
 /**

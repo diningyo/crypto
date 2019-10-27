@@ -50,46 +50,51 @@ class AESTopTester extends ChiselFlatSpec {
     "-tgvo=on"
   )
 
-  it should "be able to encrypt FIP-197 C.1 AES-128 example [AES-0001]" in {
+  it should "be able to encrypt and decrypt FIP-197 C.1 AES-128 example [AES-0001]" in {
     iotesters.Driver.execute(
       defaultArgs :+ s"-td=$testDir/0001",
     () => new SimDTMAESTop()(limit)) {
       c => new AESTopUnitTester(c) {
         val mode = AESMode.enc
-        val plainText = "00112233445566778899aabbccddeeff"
         val key = "000102030405060708090a0b0c0d0e0f"
-        val exp = ""
+        val plainText = "00112233445566778899aabbccddeeff"
+        val cipherText = "69c4e0d86a7b0430d8cdb78070b4c55a"
 
+        // encrypt
         setCfg(mode, key)
         step(1)
       }
     } should be (true)
   }
 
-  it should "be able to encrypt FIP-197 C.2 AES-192 example [AES-0002]" in {
+  it should "be able to encrypt and decrypt FIP-197 C.2 AES-192 example [AES-0002]" in {
     iotesters.Driver.execute(
       defaultArgs :+ s"-td=$testDir/0002",
       () => new SimDTMAESTop()(limit)) {
       c => new AESTopUnitTester(c) {
         val mode = AESMode.enc
-        val plainText = "00112233445566778899aabbccddeeff"
         val key = "000102030405060708090a0b0c0d0e0f1011121314151617"
+        val plainText = "00112233445566778899aabbccddeeff"
+        val cipherText = "dda97ca4864cdfe06eaf70a0ec0d7191"
 
+        // encrypt
         setCfg(mode, key)
         step(1)
       }
     } should be (true)
   }
 
-  it should "be able to encrypt FIP-197 C.3 AES-256 example [AES-0003]" in {
+  it should "be able to encrypt and decrypt FIP-197 C.3 AES-256 example [AES-0003]" in {
     iotesters.Driver.execute(
       defaultArgs :+ s"-td=$testDir/0003",
       () => new SimDTMAESTop()(limit)) {
       c => new AESTopUnitTester(c) {
         val mode = AESMode.enc
-        val plainText = "00112233445566778899aabbccddeeff"
         val key = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+        val plainText = "00112233445566778899aabbccddeeff"
+        val cipherText = "8ea2b7ca516745bfeafc49904b496089"
 
+        // encrypt
         setCfg(mode, key)
         step(1)
       }

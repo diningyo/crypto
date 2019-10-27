@@ -18,7 +18,7 @@ object AESMode extends ChiselEnum {
  */
 class AESCfgs extends Bundle {
   val key = UInt(256.W)
-  val nk = UInt(log2Ceil(8).W)
+  val nk = UInt(4.W)
   val mode = UInt(AESMode.getWidth.W)
 }
 

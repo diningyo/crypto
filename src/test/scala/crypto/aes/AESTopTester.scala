@@ -17,7 +17,7 @@ class AESTopUnitTester(c: SimDTMAESTop) extends PeekPokeTester(c) {
   def hex2bytes(hex: String): Array[Byte] =
     hex.replaceAll("[^0-9A-Fa-f]", "").sliding(2, 2).toArray.map(Integer.parseInt(_, 16).toByte)
 
-  def padding(data: String, numOfrequiredBits: Int): BigInt = {
+  def padding(data: String, numOfRequiredBits: Int): BigInt = {
     0
   }
 
@@ -57,8 +57,6 @@ class AESTopUnitTester(c: SimDTMAESTop) extends PeekPokeTester(c) {
       step(1)
     }
   }
-
-
 }
 
 /**
@@ -90,6 +88,7 @@ class AESTopTester extends ChiselFlatSpec {
 
         // encrypt
         setCfg(mode, key)
+        run(plainText)
         step(1)
       }
     } should be (true)
@@ -107,6 +106,7 @@ class AESTopTester extends ChiselFlatSpec {
 
         // encrypt
         setCfg(mode, key)
+        run(plainText)
         step(1)
       }
     } should be (true)
@@ -124,6 +124,7 @@ class AESTopTester extends ChiselFlatSpec {
 
         // encrypt
         setCfg(mode, key)
+        run(plainText)
         step(1)
       }
     } should be (true)

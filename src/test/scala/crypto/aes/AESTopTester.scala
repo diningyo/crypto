@@ -81,14 +81,18 @@ class AESTopTester extends ChiselFlatSpec {
       defaultArgs :+ s"-td=$testDir/0001",
     () => new SimDTMAESTop()(limit)) {
       c => new AESTopUnitTester(c) {
-        val mode = AESMode.enc
         val key = "000102030405060708090a0b0c0d0e0f"
         val plainText = "00112233445566778899aabbccddeeff"
         val cipherText = "69c4e0d86a7b0430d8cdb78070b4c55a"
 
         // encrypt
-        setCfg(mode, key)
+        setCfg(AESMode.enc, key)
         run(plainText)
+        step(1)
+
+        // decrypt
+        setCfg(AESMode.dec, key)
+        run(cipherText)
         step(1)
       }
     } should be (true)
@@ -99,14 +103,18 @@ class AESTopTester extends ChiselFlatSpec {
       defaultArgs :+ s"-td=$testDir/0002",
       () => new SimDTMAESTop()(limit)) {
       c => new AESTopUnitTester(c) {
-        val mode = AESMode.enc
         val key = "000102030405060708090a0b0c0d0e0f1011121314151617"
         val plainText = "00112233445566778899aabbccddeeff"
         val cipherText = "dda97ca4864cdfe06eaf70a0ec0d7191"
 
         // encrypt
-        setCfg(mode, key)
+        setCfg(AESMode.enc, key)
         run(plainText)
+        step(1)
+
+        // decrypt
+        setCfg(AESMode.dec, key)
+        run(cipherText)
         step(1)
       }
     } should be (true)
@@ -117,14 +125,18 @@ class AESTopTester extends ChiselFlatSpec {
       defaultArgs :+ s"-td=$testDir/0003",
       () => new SimDTMAESTop()(limit)) {
       c => new AESTopUnitTester(c) {
-        val mode = AESMode.enc
         val key = "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
         val plainText = "00112233445566778899aabbccddeeff"
         val cipherText = "8ea2b7ca516745bfeafc49904b496089"
 
         // encrypt
-        setCfg(mode, key)
+        setCfg(AESMode.enc, key)
         run(plainText)
+        step(1)
+
+        // decrypt
+        setCfg(AESMode.dec, key)
+        run(cipherText)
         step(1)
       }
     } should be (true)

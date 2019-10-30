@@ -18,7 +18,7 @@ class RotWord extends Module {
   val w_out_data = Range(0, 4).map {
     case i if i == 3 => w_in_data(0)
     case i => w_in_data(i + 1)
-  }.reverse
+  }
 
   io.out := Cat(w_out_data)
 }

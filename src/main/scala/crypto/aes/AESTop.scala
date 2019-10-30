@@ -41,4 +41,5 @@ class AESTop extends Module {
   val io = IO(new AESTopIO)
 
   io := DontCare
+  io.data_in.ready := true.B
 }

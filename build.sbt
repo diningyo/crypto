@@ -1,5 +1,30 @@
 // See README.md for license details.
 
+ThisBuild / scalaVersion     := "2.12.12"
+ThisBuild / version          := "0.0.0"
+ThisBuild / organization     := "diningyo"
+
+lazy val root = (project in file("."))
+  .settings(
+    name := "crypto",
+    libraryDependencies ++= Seq(
+      "edu.berkeley.cs" %% "chisel3" % "3.4.3",
+      "edu.berkeley.cs" %% "chisel-iotesters" % "1.5.3",
+      "edu.berkeley.cs" %% "chiseltest" % "0.3.3" % "test"
+    ),
+    scalacOptions ++= Seq(
+      "-Xsource:2.11",
+      "-language:reflectiveCalls",
+      "-deprecation",
+      "-feature",
+      "-Xcheckinit"
+    ),
+    addCompilerPlugin("edu.berkeley.cs" % "chisel3-plugin" % "3.4.3" cross CrossVersion.full),
+    addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.1" cross CrossVersion.full),
+  )
+
+// See README.md for license details.
+
 def scalacOptionsVersion(scalaVersion: String): Seq[String] = {
   Seq() ++ {
     // If we're building with Scala > 2.11, enable the compile option
@@ -25,29 +50,3 @@ def javacOptionsVersion(scalaVersion: String): Seq[String] = {
     }
   }
 }
-
-name := "crypto"
-
-version := "3.2.0"
-
-scalaVersion := "2.12.10"
-
-crossScalaVersions := Seq("2.12.10", "2.11.12")
-
-resolvers ++= Seq(
-  Resolver.sonatypeRepo("snapshots"),
-  Resolver.sonatypeRepo("releases")
-)
-
-// Provide a managed dependency on X if -DXVersion="" is supplied on the command line.
-val defaultVersions = Map(
-  "chisel3" -> "3.2.+",
-  "chisel-iotesters" -> "1.3.+"
-  )
-
-libraryDependencies ++= Seq("chisel3","chisel-iotesters").map {
-  dep: String => "edu.berkeley.cs" %% dep % sys.props.getOrElse(dep + "Version", defaultVersions(dep)) }
-
-scalacOptions ++= scalacOptionsVersion(scalaVersion.value)
-
-javacOptions ++= javacOptionsVersion(scalaVersion.value)

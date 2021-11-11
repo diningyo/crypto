@@ -29,4 +29,20 @@ object ElaborateRotWord extends App {
   ),
     () => new RotWord
   )
+
+  Driver.execute(Array(
+    "-td=rtl"
+  ),
+    () => new Module {
+      val io = IO(new Bundle {
+        val div2_clock = Output(Clock())
+        val delay_reset = Output(Bool())
+      })
+
+      io.div2_clock := RegNext(clock)
+      io.delay_reset := RegNext(reset, false.B)
+    }
+  )
 }
+
+

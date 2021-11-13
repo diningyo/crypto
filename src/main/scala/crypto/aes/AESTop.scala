@@ -13,6 +13,10 @@ object AESMode extends ChiselEnum {
   val enc, dec = Value
 }
 
+object AESParams {
+  val nb = 4
+}
+
 /**
  * AES configuration
  */
